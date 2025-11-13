@@ -40,11 +40,13 @@
  *
  * https://trufflesuite.com/docs/truffle/getting-started/using-the-truffle-dashboard/
  */
-
-require('dotenv').config();
-const { MNEMONIC, INFURA_API_KEY } = process.env;
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const LoomTruffleProvider = require('loom-truffle-provider');
+
+require('dotenv').config();
+mnemonic = process.env.MNEMONIC;
+INFURA_API_KEY = process.env.INFURA_API_KEY;
+
 
 module.exports = {
   /**
@@ -62,22 +64,27 @@ module.exports = {
     mainnet: {
       provider: function () {
         // Setting the provider with the Infura Mainnet address and Token
-        return new HDWalletProvider(MNEMONIC, "https://mainnet.infura.io/v3/YOUR_TOKEN")
+        return new HDWalletProvider(process.env.MNEMONIC, "https://mainnet.infura.io/v3/YOUR_TOKEN")
       },
       network_id: "1"
     },
     // Configuration for rinkeby network
     sepolia: {
       provider: () => new HDWalletProvider(
-        process.env.MNEMONIC, 
-        `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}` // Utilisez votre clé API
+        mnemonic, 
+        `https://sepolia.infura.io/v3/${INFURA_API_KEY}` // Utilisez votre clé API
       ),
       network_id: 11155111,    // ID du réseau Sepolia
       chain_id: 11155111,      // S'assurer que le chain_id est aussi correct
       gas: 5500000,          
       confirmations: 2,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: true,
+      // Augmenter le délai de connexion avant qu'il n'échoue (en millisecondes)
+      networkCheckTimeout: 100000, // 100 secondes (plus tolérant pour Infura)
+  
+      // Augmenter le nombre de blocs à attendre avant d'abandonner une transaction
+      timeoutBlocks: 200
     },
     loom_testnet: {
       provider: function() {

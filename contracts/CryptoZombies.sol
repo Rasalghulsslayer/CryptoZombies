@@ -4,6 +4,6 @@ import "./zombieownership.sol";
 contract CryptoZombies is ZombieOwnership
     {
     function kill() public onlyOwner {
-        selfdestruct(owner());
+        selfdestruct(payable(owner()));
     }
 }
