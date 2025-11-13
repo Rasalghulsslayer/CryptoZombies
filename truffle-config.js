@@ -72,7 +72,7 @@ module.exports = {
     sepolia: {
       provider: () => new HDWalletProvider(
         mnemonic, 
-        `https://sepolia.infura.io/v3/${INFURA_API_KEY}` // Utilisez votre clé API
+        `https://eth-sepolia.g.alchemy.com/v2/${INFURA_API_KEY}` // Utilisez votre clé API
       ),
       network_id: 11155111,    // ID du réseau Sepolia
       chain_id: 11155111,      // S'assurer que le chain_id est aussi correct
