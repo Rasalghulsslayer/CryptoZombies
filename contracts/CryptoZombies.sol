@@ -1,0 +1,9 @@
+pragma solidity ^0.8.0;
+import "./zombieownership.sol";
+
+contract CryptoZombies is ZombieOwnership
+    {
+    function kill() public onlyOwner {
+        selfdestruct(owner());
+    }
+}
