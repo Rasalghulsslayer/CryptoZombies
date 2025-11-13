@@ -42,8 +42,7 @@
  */
 
 require('dotenv').config();
-const { MNEMONIC, PROJECT_ID } = process.env;
-
+const { MNEMONIC, INFURA_API_KEY } = process.env;
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const LoomTruffleProvider = require('loom-truffle-provider');
 
@@ -68,14 +67,17 @@ module.exports = {
       network_id: "1"
     },
     // Configuration for rinkeby network
-    rinkeby: {
-      // Special function to setup the provider
-      provider: function () {
-        // Setting the provider with the Infura Rinkeby address and Token
-        return new HDWalletProvider(MNEMONIC, "https://rinkeby.infura.io/v3/YOUR_TOKEN")
-      },
-      // Network id is 4 for Rinkeby
-      network_id: 4
+    sepolia: {
+      provider: () => new HDWalletProvider(
+        process.env.MNEMONIC, 
+        `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}` // Utilisez votre clé API
+      ),
+      network_id: 11155111,    // ID du réseau Sepolia
+      chain_id: 11155111,      // S'assurer que le chain_id est aussi correct
+      gas: 5500000,          
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     },
     loom_testnet: {
       provider: function() {
